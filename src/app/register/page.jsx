@@ -1,6 +1,5 @@
 "use client";
 import LoginBtn from "@/components/LoginBtn";
-import bcrypt from "bcryptjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";

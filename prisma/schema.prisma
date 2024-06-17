@@ -13,37 +13,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Blog {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  content   String
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String    @db.ObjectId
-  tags      String[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  views     Int       @default(0)
-  likes     Int       @default(0)
-  comments  Comment[]
-}
-
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  email     String    @unique
+  email     String   @unique
   password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  blogs     Blog[]
-  comments  Comment[]
+  secureUrl String?
+  publicId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Blog      Blog[]
 }
 
-model Comment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @db.ObjectId
-  blog      Blog     @relation(fields: [blogId], references: [id])
-  blogId    String   @db.ObjectId
-  text      String
-  createdAt DateTime @default(now())
+model Blog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String   @unique
+  content     String
+  author      User     @relation(fields: [authorEmail], references: [email])
+  authorEmail String
+  secureUrl   String?
+  publicId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  views       Int      @default(0)
 }

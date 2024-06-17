@@ -2,8 +2,6 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -42,14 +40,19 @@ const Navbar = () => {
         </div>
         <div className='flex items-center'>
           {session?.user && user ? (
-            <div className='flex flex-col gap-y-2'>
-              <h1 className='text-xl font-semibold'>{session?.user?.name}</h1>
-              <button
-                onClick={() => handleLogout()}
-                className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
-                logOut
-              </button>
-            </div>
+            <>
+              <Link href={"/dashboard/create-posts"} className=''>
+                create post
+              </Link>
+              <div className='flex flex-col gap-y-2'>
+                <h1 className='text-xl font-semibold'>{session?.user?.name}</h1>
+                <button
+                  onClick={() => handleLogout()}
+                  className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
+                  logOut
+                </button>
+              </div>
+            </>
           ) : user ? (
             <>
               <Link href='/login'>
