@@ -1,9 +1,7 @@
 import React from "react";
 
 const detailPost = async (id) => {
-  const res = await fetch(`/api/detailPost/${id}`, {
-    cache: "no-cache",
-  });
+  const res = await fetch(`/api/singlePost/${id}`);
   const data = await res.json();
   return data;
 };
@@ -14,7 +12,7 @@ const page = async ({ params }) => {
 
   return (
     <div>
-      {post.map((post) => (
+      {post?.map((post) => (
         <h1>{post.title}</h1>
       ))}
     </div>

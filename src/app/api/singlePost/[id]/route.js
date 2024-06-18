@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(request, { params }) {
   try {
     const postId = params.id; // Ambil ID post dari parameter URL
-    console.log(postId);
+
     // Cari post berdasarkan ID
     const post = await prisma.blog.findUnique({
       where: { id: postId },
