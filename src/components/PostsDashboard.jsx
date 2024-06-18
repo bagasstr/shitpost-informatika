@@ -32,6 +32,7 @@ const Posts = () => {
       });
       if (res.ok) {
         alert("Post deleted successfully");
+        setPost((prev) => prev.filter((post) => post.id !== id));
         window.location.reload();
       } else {
         console.error("Error deleting post:", res.statusText);
