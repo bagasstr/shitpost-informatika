@@ -5,14 +5,8 @@ const DeletePost = async ({ params }) => {
   const res = await fetch(`/api/deletePost/${id}`, {
     method: "DELETE",
   });
-  console.log(data);
   window.location.reload();
-  fetch("/api/allPosts", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  fetch("/api/allPosts");
   return <div>DeletePost</div>;
 };
 
