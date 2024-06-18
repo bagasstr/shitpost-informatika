@@ -1,7 +1,7 @@
 import React from "react";
 
 const detailPost = async (id) => {
-  const res = await fetch(`http://localhost:3000/api/detailPost/${id}`, {
+  const res = await fetch(`/api/detailPost/${id}`, {
     cache: "no-cache",
   });
   const data = await res.json();

@@ -10,7 +10,7 @@ const Posts = () => {
   const [isLoadingDelete, setLoadingDelete] = useState(false);
   const fetchPosts = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/authorPost");
+      const res = await fetch("/api/authorPost");
       const data = await res.json();
       setPost(data.posts);
       setEmpty(data?.posts?.length === 0);
@@ -27,7 +27,7 @@ const Posts = () => {
   const handleDelete = async (id) => {
     setLoadingDelete((prev) => ({ ...prev, [id]: true }));
     try {
-      const res = await fetch(`http://localhost:3000/api/deletePost/${id}`, {
+      const res = await fetch(`/api/deletePost/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {

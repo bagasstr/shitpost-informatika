@@ -7,7 +7,7 @@ const DeletePost = async ({ params }) => {
   });
   console.log(data);
   window.location.reload();
-  fetch("http://localhost:3000/api/allPosts", {
+  fetch("/api/allPosts", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

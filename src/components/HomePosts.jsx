@@ -16,7 +16,7 @@ const HomePosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/allPosts");
+      const res = await fetch("/api/allPosts");
       const data = await res.json();
       setPost(data?.posts);
       setEmpty(data?.posts?.length === 0);
@@ -30,7 +30,7 @@ const HomePosts = () => {
   const handleDelete = async (id) => {
     setLoadingDelete((prev) => ({ ...prev, [id]: true }));
     try {
-      const res = await fetch(`http://localhost:3000/api/deletePost/${id}`, {
+      const res = await fetch(`/api/deletePost/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
