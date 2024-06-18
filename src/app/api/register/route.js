@@ -7,10 +7,36 @@ export async function POST(request) {
     const body = await request.json();
     const { name, email, password } = body;
 
-    if (!email || !name || !password) {
-      return new NextResponse("Missing email, name, or password", {
-        status: 401,
+    function validateEmail(email) {
+      // Regex untuk validasi email (Anda bisa menggunakan regex yang lebih ketat)
+      const re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    }
+    const errors = {};
+    if (!name) {
+      errors.name = "Nama harus diisi";
+    }
+    if (!email) {
+      errors.email = "Email harus diisi";
+    } else if (!validateEmail(email)) {
+      // Fungsi validasi email (lihat di bawah)
+      errors.email = "Email tidak valid";
+    } else {
+      const existingUser = await prisma.user.findUnique({
+        where: { email },
       });
+      if (existingUser) {
+        errors.email = "Email ini sudah ada";
+      }
+    }
+    if (!password) {
+      errors.password = "Password harus diisi";
+    } else if (password.length < 6) {
+      errors.password = "Password harus lebih dari 6 karakter";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return NextResponse.json({ error: errors }, { status: 400 }); // Bad Request
     }
 
     // Periksa apakah pengguna sudah ada

@@ -5,8 +5,8 @@ import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+export const revalidate = 3;
 const CreatePosts = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [url, setUrl] = useState(null);
   const [publicId, setPublicId] = useState(null);
   const [data, setData] = useState({
@@ -17,6 +17,7 @@ const CreatePosts = () => {
   });
 
   const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -29,6 +30,7 @@ const CreatePosts = () => {
       });
 
       if (res.ok) {
+        alert("Postingan berhasil ditambahkan");
         router.push("/dashboard");
       }
     } catch (error) {
@@ -37,8 +39,6 @@ const CreatePosts = () => {
   };
 
   const handleImageUpload = (result) => {
-    setIsLoading(true);
-
     if (result.event === "success") {
       setUrl(result.info.secure_url);
       setPublicId(result.info.public_id);
@@ -48,7 +48,6 @@ const CreatePosts = () => {
         publicId: result?.info?.public_id,
       });
     }
-    setIsLoading(false);
 
     console.log(data);
   };
@@ -72,7 +71,6 @@ const CreatePosts = () => {
       console.log(error);
     }
   };
-
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -102,18 +100,6 @@ const CreatePosts = () => {
                 uploadPreset='x5bav9pz'
                 onUpload={handleImageUpload}
                 className='w-full py-[5rem] bg-slate-300 relative'>
-                {isLoading ? (
-                  <div className='absolute inset-0 flex items-center justify-center bg-opacity-50 bg-gray-800'>
-                    <p className='text-white text-lg font-bold'>Uploading...</p>
-                  </div>
-                ) : (
-                  <div className=''>
-                    <h1 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 px-3 py-2 text-slate-100 bg-slate-800/50 ring-1 ring-slate-500 backdrop-blur-sm rounded-md'>
-                      Upload Image
-                    </h1>
-                  </div>
-                )}
-
                 {publicId && (
                   <Image
                     src={url}

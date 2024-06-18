@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
-
+  const [errors, setErrors] = useState({});
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -31,6 +31,10 @@ const Login = () => {
         redirect: false,
       });
 
+      if (res?.error) {
+        const error = JSON.parse(res.error);
+        setErrors(error);
+      }
       if (!res?.error) {
         router.push("/dashboard");
       }
@@ -48,27 +52,46 @@ const Login = () => {
               <h1 className='text-center text-3xl font-bold text-slate-800'>
                 Login
               </h1>
-              <input
-                label='email'
-                onChange={(e) => setData({ ...data, email: e.target.value })}
-                type='text'
-                placeholder='email'
-                className='outline-none border-none bg-slate-200 p-2 rounded-md'
-              />
-              <input
-                label='password'
-                onChange={(e) => setData({ ...data, password: e.target.value })}
-                type='password'
-                placeholder='password'
-                className='outline-none border-none bg-slate-200 p-2 rounded-md'
-              />
+              <div className='space-y-4'>
+                <div className=''>
+                  <input
+                    label='email'
+                    onChange={(e) =>
+                      setData({ ...data, email: e.target.value })
+                    }
+                    type='email'
+                    placeholder='email'
+                    className='outline-none border-none bg-slate-200 p-2 rounded-md'
+                  />
+                  {errors.email && (
+                    <p className='text-red-500 text-sm'>{errors.email}</p>
+                  )}
+                </div>
+                <div className=''>
+                  <input
+                    label='password'
+                    onChange={(e) =>
+                      setData({ ...data, password: e.target.value })
+                    }
+                    type='password'
+                    placeholder='password'
+                    className='outline-none border-none bg-slate-200 p-2 rounded-md'
+                  />
+                  {errors.password && (
+                    <p className='text-red-500 text-sm'>{errors.password}</p>
+                  )}
+                </div>
+              </div>
               <button
                 type='submit'
                 className='bg-slate-800 rounded-md py-1 font-medium text-slate-100'>
                 Login
               </button>
-              <p className='text-slate-800 text-sm'>
-                Don't have an account? <Link href='/register'>Register</Link>
+              <p className='text-slate-700 text-sm'>
+                Don't have an account?{" "}
+                <Link href='/register' className='text-slate-800 font-medium'>
+                  Register
+                </Link>
               </p>
             </div>
           </div>

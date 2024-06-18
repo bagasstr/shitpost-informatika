@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -21,6 +22,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     localStorage.removeItem("session");
     await signOut();
+    redirect("/");
   };
   return (
     <>
@@ -38,28 +40,41 @@ const Navbar = () => {
             </div>
           </Link>
         </div>
-        <div className='flex items-center'>
+        <div className='flex items-end'>
           {session?.user && user ? (
             <>
-              <Link href={"/dashboard/create-posts"} className=''>
-                create post
-              </Link>
-              <div className='flex flex-col gap-y-2'>
-                <h1 className='text-xl font-semibold'>{session?.user?.name}</h1>
-                <button
-                  onClick={() => handleLogout()}
-                  className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
-                  logOut
-                </button>
+              <div className='text-right space-y-2'>
+                <h1 className='text-xl font-semibold underline-offset-8 underline'>
+                  Hallo {session?.user?.name}
+                </h1>
+                <div className='space-x-4'>
+                  <Link
+                    href={"/dashboard/create-posts"}
+                    className='px-3 py-2 bg-slate-200 text-slate-900 rounded-md font-medium'>
+                    Buat Postingan
+                  </Link>
+                  <button
+                    onClick={() => handleLogout()}
+                    className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
+                    Logout
+                  </button>
+                </div>
+                <div className='flex gap-x-4 justify-end items-center mt-2 border-t-2 border-slate-800'>
+                  <Link href={"/"}>Home</Link>
+                  <Link href={"/dashboard"}>Dashboard</Link>
+                </div>
               </div>
             </>
           ) : user ? (
             <>
-              <Link href='/login'>
-                <button className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
-                  Login
-                </button>
-              </Link>
+              <div className='flex gap-x-4 items-center'>
+                <Link href='/'>Home</Link>
+                <Link href='/login'>
+                  <button className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
+                    Login
+                  </button>
+                </Link>
+              </div>
             </>
           ) : null}
         </div>

@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const UpdatePosts = ({ params }) => {
+  const id = params.id;
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [url, setUrl] = useState(null);
-  const [publicId, setPublicId] = useState(null);
+  const [blog, setBlog] = useState(null);
+
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -16,12 +18,30 @@ const UpdatePosts = ({ params }) => {
     publicId: "",
   });
 
-  const router = useRouter();
+  // Fetch data blog saat komponen pertama kali dimuat
+  useEffect(() => {
+    const fetchBlog = async () => {
+      const res = await fetch(`/api/singlePost/${id}`);
+      const post = await res.json();
+      console.log(post);
+      if (res.ok) {
+        setBlog(post);
+        setData({
+          title: post?.title,
+          content: post?.content,
+          secureUrl: post?.secureUrl,
+          publicId: post?.publicId,
+        });
+      }
+    };
+    fetchBlog();
+  }, [id]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/createPosts", {
-        method: "POST",
+      const res = await fetch(`/api/updatePosts/${id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -30,9 +50,12 @@ const UpdatePosts = ({ params }) => {
 
       if (res.ok) {
         router.push("/dashboard");
+      } else {
+        const error = await res.json();
+        console.error("Error updating post:", error);
       }
     } catch (error) {
-      throw new Error(error);
+      console.error("An error occurred while updating the post:", error);
     }
   };
 
@@ -40,8 +63,6 @@ const UpdatePosts = ({ params }) => {
     setIsLoading(true);
 
     if (result.event === "success") {
-      setUrl(result.info.secure_url);
-      setPublicId(result.info.public_id);
       setData({
         ...data,
         secureUrl: result?.info?.secure_url,
@@ -49,9 +70,8 @@ const UpdatePosts = ({ params }) => {
       });
     }
     setIsLoading(false);
-
-    console.log(data);
   };
+
   const removeImage = async (e) => {
     e.preventDefault();
     try {
@@ -61,17 +81,26 @@ const UpdatePosts = ({ params }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          publicId,
+          publicId: data.publicId,
         }),
       });
       if (res.ok) {
         setUrl(null);
         setPublicId(null);
+        setData({
+          ...data,
+          secureUrl: null,
+          publicId: null,
+        });
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (!blog) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -114,16 +143,16 @@ const UpdatePosts = ({ params }) => {
                   </div>
                 )}
 
-                {publicId && (
+                {data.publicId && (
                   <Image
-                    src={url}
-                    alt={publicId}
+                    src={data.secureUrl}
+                    alt={data.publicId}
                     fill
                     className='object-cover rounded-md absolute'
                   />
                 )}
               </CldUploadButton>
-              {publicId && (
+              {data.publicId && (
                 <button
                   onClick={removeImage}
                   className='text-slate-100 px-3 py-2 bg-red-600 rounded-md w-fit'>
@@ -134,7 +163,7 @@ const UpdatePosts = ({ params }) => {
             <button
               type='submit'
               className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md'>
-              Submit
+              Edit
             </button>
           </div>
         </div>

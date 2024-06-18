@@ -18,10 +18,8 @@ export default async function RootLayout({ children }) {
     <html lang='en'>
       <body className={`${inter.className} max-w-2xl mx-auto`}>
         <NextAuthProvider session={session}>
-          <TanstackProvider>
-            <Navbar />
-            {children}
-          </TanstackProvider>
+          <Navbar />
+          {children}
         </NextAuthProvider>
       </body>
     </html>

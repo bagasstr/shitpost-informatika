@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Register = () => {
+  const [errors, setErrors] = useState({});
   const router = useRouter();
   const [data, setData] = useState({
     name: "",
@@ -25,6 +26,9 @@ const Register = () => {
       });
       if (res.ok) {
         router.push("/login");
+      } else {
+        const errorData = await res.json();
+        setErrors(errorData.error || {}); // Set error messages dari response
       }
     } catch (error) {
       throw error;
@@ -39,36 +43,50 @@ const Register = () => {
               <h1 className='text-center text-3xl font-bold text-slate-800'>
                 Register
               </h1>
-              <input
-                name='name'
-                id='name'
-                required
-                value={data.name}
-                onChange={(e) => setData({ ...data, name: e.target.value })}
-                type='text'
-                placeholder='name'
-                className='outline-none border-none bg-slate-200 p-2 rounded-md'
-              />
-              <input
-                name='email'
-                id='email'
-                required
-                value={data.email}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
-                type='text'
-                placeholder='Email'
-                className='outline-none border-none bg-slate-200 p-2 rounded-md'
-              />
-              <input
-                name='password'
-                id='password'
-                required
-                value={data.password}
-                onChange={(e) => setData({ ...data, password: e.target.value })}
-                type='password'
-                placeholder='Password'
-                className='outline-none border-none bg-slate-200 p-2 rounded-md'
-              />
+              <div className=''>
+                <input
+                  name='name'
+                  id='name'
+                  value={data.name}
+                  onChange={(e) => setData({ ...data, name: e.target.value })}
+                  type='text'
+                  placeholder='name'
+                  className='outline-none border-none bg-slate-200 p-2 rounded-md'
+                />
+                {errors.name && (
+                  <p className='text-red-500 text-sm'>{errors.name}</p>
+                )}
+              </div>
+              <div className=''>
+                <input
+                  name='email'
+                  id='email'
+                  value={data.email}
+                  onChange={(e) => setData({ ...data, email: e.target.value })}
+                  type='email'
+                  placeholder='Email'
+                  className='outline-none border-none bg-slate-200 p-2 rounded-md'
+                />
+                {errors.email && (
+                  <p className='text-red-500 text-sm'>{errors.email}</p>
+                )}
+              </div>
+              <div className=''>
+                <input
+                  name='password'
+                  id='password'
+                  value={data.password}
+                  onChange={(e) =>
+                    setData({ ...data, password: e.target.value })
+                  }
+                  type='password'
+                  placeholder='Password'
+                  className='outline-none border-none bg-slate-200 p-2 rounded-md'
+                />
+                {errors.password && (
+                  <p className='text-red-500 text-sm'>{errors.password}</p>
+                )}
+              </div>
               <button
                 type='submit'
                 className='bg-slate-800 rounded-md py-1 font-medium text-slate-100'>

@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
+
   providers: [
     Credentials({
       name: "credentials",
@@ -24,13 +25,19 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw (new Error("Invalid credentials"), { status: 401 });
+          throw new Error(
+            JSON.stringify({
+              email: "Email harus diisi",
+              password: "Password harus diisi",
+            })
+          );
         }
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-        if (!user || !user.password) {
-          throw (new Error("account not found"), { status: 400 });
+        if (!user) {
+          throw new Error(JSON.stringify({ email: "Email tidak terdaftar" }));
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -39,8 +46,7 @@ export const authOptions = {
         );
 
         if (!isCorrectPassword) {
-          alert("password is incorrect");
-          throw new Error("password is incorrect");
+          throw new Error(JSON.stringify({ password: "Password salah" }));
         }
 
         return user;
