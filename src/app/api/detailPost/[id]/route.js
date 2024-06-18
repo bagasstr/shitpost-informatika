@@ -17,6 +17,6 @@ export async function GET(req, { params }) {
     }
     return NextResponse.json(res);
   } catch (error) {
-    // console.error(error);
+    console.error(error);
   }
 }

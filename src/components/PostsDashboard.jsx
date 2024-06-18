@@ -27,9 +27,7 @@ const Posts = () => {
   const handleDelete = async (id) => {
     setLoadingDelete((prev) => ({ ...prev, [id]: true }));
     try {
-      const res = await fetch(`/api/deletePost/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(`/api/deletePost/${id}`);
       if (res.ok) {
         alert("Post deleted successfully");
       } else {
@@ -38,7 +36,6 @@ const Posts = () => {
     } catch (error) {
       console.error("Error deleting post:", error);
     }
-    window.location.reload();
   };
   return (
     <>
