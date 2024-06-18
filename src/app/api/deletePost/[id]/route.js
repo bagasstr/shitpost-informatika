@@ -5,8 +5,10 @@ export async function DELETE(request, { params }) {
   try {
     const postId = params.id;
     const res = await prisma.blog.delete({ where: { id: postId } });
-    if (!res.ok) {
-      return new NextResponse("Post not found", { status: 404 });
+    if (!res) {
+      return new NextResponse(`Blog post with ID ${postId} not found`, {
+        status: 404,
+      });
     } else {
       return NextResponse.json(
         { message: "Post deleted successfully" },

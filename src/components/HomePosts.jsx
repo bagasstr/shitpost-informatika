@@ -17,6 +17,9 @@ const HomePosts = () => {
   const fetchPosts = async () => {
     try {
       const res = await fetch("/api/allPosts");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
       const data = await res.json();
       setPost(data?.posts);
       setEmpty(data?.posts?.length === 0);
@@ -36,7 +39,6 @@ const HomePosts = () => {
       if (res.ok) {
         setPost(posts.filter((post) => post.id !== id));
         alert("Post deleted successfully");
-        window.location.reload();
       } else {
         console.error("Error deleting post:", res.statusText);
       }

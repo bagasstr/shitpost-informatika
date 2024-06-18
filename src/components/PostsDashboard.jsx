@@ -8,9 +8,15 @@ const Posts = () => {
   const [isEmpty, setEmpty] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [isLoadingDelete, setLoadingDelete] = useState(false);
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   const fetchPosts = async () => {
     try {
       const res = await fetch("/api/authorPost");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
       const data = await res.json();
       setPost(data.posts);
       setEmpty(data?.posts?.length === 0);
@@ -20,9 +26,6 @@ const Posts = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   const handleDelete = async (id) => {
     setLoadingDelete((prev) => ({ ...prev, [id]: true }));
@@ -33,7 +36,6 @@ const Posts = () => {
       if (res.ok) {
         setPost(posts.filter((post) => post.id !== id));
         alert("Post deleted successfully");
-        window.location.reload();
       } else {
         console.error("Error deleting post:", res.statusText);
       }
