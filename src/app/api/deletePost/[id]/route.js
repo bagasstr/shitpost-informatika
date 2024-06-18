@@ -2,10 +2,17 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function DELETE(request, { params }) {
-  const postId = params.id;
-  const res = await prisma.blog.delete({ where: { id: postId } });
-  if (!res.ok) {
-    return new NextResponse("Post not found", { status: 404 });
+  try {
+    const postId = params.id;
+    const res = await prisma.blog.delete({ where: { id: postId } });
+    if (!res.ok) {
+      return new NextResponse("Post not found", { status: 404 });
+    }
+    return NextResponse.json(
+      { message: "Post deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    conlosr.error(error);
   }
-  return NextResponse.json({ message: "Post deleted successfully" });
 }
