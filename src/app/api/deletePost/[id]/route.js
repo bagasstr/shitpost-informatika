@@ -7,12 +7,13 @@ export async function DELETE(request, { params }) {
     const res = await prisma.blog.delete({ where: { id: postId } });
     if (!res.ok) {
       return new NextResponse("Post not found", { status: 404 });
+    } else {
+      return NextResponse.json(
+        { message: "Post deleted successfully" },
+        { status: 200 }
+      );
     }
-    return NextResponse.json(
-      { message: "Post deleted successfully" },
-      { status: 200 }
-    );
   } catch (error) {
-    conlosr.error(error);
+    console.error(error);
   }
 }
