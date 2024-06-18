@@ -66,15 +66,15 @@ const HomePosts = () => {
               <>
                 <div
                   key={post.id}
-                  className='p-5 bg-slate-200 w-fit rounded-3xl'>
-                  <div className='h-auto object-scale-down w-auto overflow-clip rounded-lg'>
+                  className='p-5 bg-slate-50 shadow-md rounded-3xl w-11/12'>
+                  <div className='h-auto object-cover w-auto overflow-clip rounded-lg'>
                     {post.secureUrl ? (
                       <Image
                         src={post.secureUrl}
                         alt={post.title}
                         width={400}
                         height={400}
-                        className='rounded-xl'
+                        className='rounded-xl border-2 border-slate-200'
                       />
                     ) : null}
                   </div>
