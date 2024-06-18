@@ -27,7 +27,9 @@ const Posts = () => {
   const handleDelete = async (id) => {
     setLoadingDelete((prev) => ({ ...prev, [id]: true }));
     try {
-      const res = await fetch(`/api/deletePost/${id}`);
+      const res = await fetch(`/api/deletePost/${id}`, {
+        method: "DELETE",
+      });
       if (res.ok) {
         alert("Post deleted successfully");
       } else {
