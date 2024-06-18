@@ -18,9 +18,9 @@ const page = async ({ params }) => {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold'>{post.title}</h1>
-      <p>Diposting oleh {post.author.name}</p>
-      <p className='text-2xl'>{post.content}</p>
+      <h1 className='text-3xl font-bold'>{post?.title}</h1>
+      <p>Diposting oleh {post?.author?.name}</p>
+      <p className='text-2xl'>{post?.content}</p>
     </div>
   );
 };
