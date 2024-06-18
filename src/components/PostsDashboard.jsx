@@ -53,48 +53,48 @@ const Posts = () => {
             {posts.map((post) => (
               <>
                 {/* Blog detail */}
-                <Link href={`/post/${post.id}`}>
-                  <div
-                    key={post.id}
-                    className='p-5 bg-slate-200 w-fit rounded-3xl'>
-                    <div className='object-scale-down w-auto overflow-clip rounded-lg'>
-                      {post.secureUrl ? (
-                        <Image
-                          src={post.secureUrl}
-                          alt={post.title}
-                          width={400}
-                          height={400}
-                          className='rounded-xl'
-                        />
-                      ) : null}
-                    </div>
-                    <div className='py-4'>
+                <div
+                  key={post.id}
+                  className='p-5 bg-slate-200 w-fit rounded-3xl'>
+                  <div className='object-scale-down w-auto overflow-clip rounded-lg'>
+                    {post.secureUrl ? (
+                      <Image
+                        src={post.secureUrl}
+                        alt={post.title}
+                        width={400}
+                        height={400}
+                        className='rounded-xl'
+                      />
+                    ) : null}
+                  </div>
+                  <div className='py-4'>
+                    <Link href={`/post/${post.id}`}>
                       <p className='text-lg text-slate-900 font-bold line-clamp-1 text-wrap w-[400px] leading-tight'>
                         {post.title}
                       </p>
-                      <p className='text-sm font-medium mt-4'>
-                        Dibuat oleh: {post.author.name}
-                      </p>
+                    </Link>
+                    <p className='text-sm font-medium mt-4'>
+                      Dibuat oleh: {post.author.name}
+                    </p>
+                  </div>
+                  <div className='flex gap-x-4 items-center justify-end'>
+                    <div className='py-2 px-4 bg-slate-600 text-slate-100 rounded-md'>
+                      <Link
+                        href={`/dashboard/update-posts/${post.id}`}
+                        className=''>
+                        edit
+                      </Link>
                     </div>
-                    <div className='flex gap-x-4 items-center justify-end'>
-                      <div className='py-2 px-4 bg-slate-600 text-slate-100 rounded-md'>
-                        <Link
-                          href={`/dashboard/update-posts/${post.id}`}
-                          className=''>
-                          edit
-                        </Link>
-                      </div>
-                      <div className='py-2 px-4 bg-red-600 text-slate-100 rounded-md'>
-                        <button
-                          onClick={() => handleDelete(post.id)}
-                          disabled={isLoadingDelete[post.id]} // Nonaktifkan tombol saat loading
-                        >
-                          {isLoadingDelete[post.id] ? "Deleting..." : "Delete"}
-                        </button>
-                      </div>
+                    <div className='py-2 px-4 bg-red-600 text-slate-100 rounded-md'>
+                      <button
+                        onClick={() => handleDelete(post.id)}
+                        disabled={isLoadingDelete[post.id]} // Nonaktifkan tombol saat loading
+                      >
+                        {isLoadingDelete[post.id] ? "Deleting..." : "Delete"}
+                      </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               </>
             ))}
           </div>
