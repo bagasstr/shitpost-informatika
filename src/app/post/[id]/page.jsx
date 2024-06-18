@@ -5,7 +5,8 @@ const detailPost = async (id) => {
     `https://shitpost-informatika-five.vercel.app/api/detailPost/${id}`
   );
   const data = await res.json();
-  return data;
+  const detailPost = data.data;
+  return detailPost;
 };
 
 const page = async ({ params }) => {
