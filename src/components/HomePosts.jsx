@@ -35,11 +35,14 @@ const HomePosts = () => {
       });
       if (res.ok) {
         alert("Post deleted successfully");
+        window.location.reload();
       } else {
         console.error("Error deleting post:", res.statusText);
       }
     } catch (error) {
       console.error("Error deleting post:", error);
+    } finally {
+      setLoadingDelete((prev) => ({ ...prev, [id]: false }));
     }
   };
   return (
