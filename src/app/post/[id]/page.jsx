@@ -1,9 +1,7 @@
 import React from "react";
 
 const detailPost = async (id) => {
-  const res = await fetch(
-    `https://shitpost-informatika-five.vercel.app/api/detailPost/${id}`
-  );
+  const res = await fetch(`/api/detailPost/${id}`);
   const data = await res.json();
   const detailPost = data.data;
   return detailPost;
