@@ -17,10 +17,6 @@ const HomePosts = () => {
   const fetchPosts = async () => {
     try {
       const res = await fetch(`/api/allPosts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
         cache: "no-store",
       });
       if (!res.ok) {
