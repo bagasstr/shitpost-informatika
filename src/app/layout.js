@@ -16,7 +16,8 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
   return (
     <html lang='en'>
-      <body className={`${inter.className} max-w-2xl mx-auto `}>
+      <body
+        className={`${inter.className} max-w-2xl mx-auto sm:px-2 lg:px-0 md:px-4`}>
         <NextAuthProvider session={session}>
           <Navbar />
           <main className='pb-8'>{children}</main>

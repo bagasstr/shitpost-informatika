@@ -42,6 +42,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error logging in:", error);
+    } finally {
       setLoadingLogin(false);
     }
   };

@@ -106,7 +106,7 @@ const UpdatePosts = ({ params }) => {
     <>
       <form onSubmit={handleSubmit}>
         <div className='flex justify-center flex-col items-center'>
-          <h1 className='text-xl font-bold py-4'>Buat postingan</h1>
+          <h1 className='text-xl font-bold py-4'>Edit postingan</h1>
           <div className='flex flex-col gap-y-4 w-full'>
             <input
               type='text'

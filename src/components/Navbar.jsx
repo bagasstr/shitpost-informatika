@@ -11,19 +11,17 @@ const Navbar = () => {
   const [isClient, setIsClient] = useState(false);
   const [user, setUser] = useState([]);
   useEffect(() => {
-    setIsClient(true); // Set isClient menjadi true setelah komponen dimount di client
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
     if (session && status === "authenticated") {
       setUser(session?.user);
-      localStorage.setItem("session", JSON.stringify(session));
     }
   }, []);
 
-  const handleLogout = async () => {
-    localStorage.removeItem("session");
-    await signOut();
+  const handleLogout = () => {
+    signOut();
     redirect("/");
   };
   return (
@@ -49,16 +47,16 @@ const Navbar = () => {
         <div className='flex items-end'>
           {session?.user && user ? (
             <>
-              <div className='sm:flex sm:flex-col items-end'>
+              <div className='flex sm:flex-col md:flex-col items-end lg:flex-col'>
                 <button
                   onClick={() => handleLogout()}
-                  className='text-slate-100 px-3 py-2 hover:text-slate-500 bg-slate-800 rounded-md sm:mt-2'>
-                  <LogOut />
+                  className='text-slate-100 px-2 py-2 hover:text-slate-500 bg-slate-800 rounded-md sm:mt-2'>
+                  <LogOut className='sm:w-5 sm:h-w-5 md:w-6 md:h-6 lg:w-6 lg:h-6' />
                 </button>
                 <h1 className='text-xl font-semibold underline-offset-2 underline'>
                   Hallo {session?.user?.name}
                 </h1>
-                <div className='sm:flex sm:gap-x-2'>
+                <div className='flex'>
                   <Link
                     href={"/dashboard/create-posts"}
                     className='px-3 py-2 bg-slate-200 rounded-md'>

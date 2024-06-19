@@ -58,35 +58,38 @@ const Posts = () => {
         </div>
       ) : (
         <>
-          <div className='flex flex-col justify-center items-center gap-y-4'>
+          <div className='flex flex-col gap-y-4 justify-center items-center mt-12'>
             {posts.map((post) => (
               <>
-                {/* Blog detail */}
                 <div
                   key={post.id}
-                  className='p-5 bg-slate-200 w-fit rounded-3xl'>
-                  <div className='object-scale-down w-auto overflow-clip rounded-lg'>
+                  className='p-5 bg-slate-50 shadow-md rounded-3xl w-full flex justify-between'>
+                  <div className='flex gap-x-4'>
                     {post.secureUrl ? (
-                      <Image
-                        src={post.secureUrl}
-                        alt={post.title}
-                        width={400}
-                        height={400}
-                        className='rounded-xl'
-                      />
+                      <div className='relative sm:h-[95px] sm:w-[95px] md:h-[100px] md:w-[100px] lg:h-[100px] lg:w-[100px] rounded-xl'>
+                        <Image
+                          src={post.secureUrl}
+                          alt={post.title}
+                          // width={400}
+                          // height={400}
+                          fill
+                          className='rounded-xl border-2 border-slate-200'
+                        />
+                      </div>
                     ) : null}
-                  </div>
-                  <div className='py-4'>
-                    <Link href={`/post/${post.id}`}>
-                      <p className='text-lg text-slate-900 font-bold line-clamp-1 text-wrap w-[400px] leading-tight'>
-                        {post.title}
+
+                    <div className='py-4'>
+                      <Link href={`/post/${post.id}`}>
+                        <p className='text-2xl text-slate-900 font-bold line-clamp-1 text-wrap w-auto sm:w-fit leading-tight'>
+                          {post.title}
+                        </p>
+                      </Link>
+                      <p className='text-sm font-normal mt-4'>
+                        Dibuat oleh: {post.author.name}
                       </p>
-                    </Link>
-                    <p className='text-sm font-medium mt-4'>
-                      Dibuat oleh: {post.author.name}
-                    </p>
+                    </div>
                   </div>
-                  <div className='flex gap-x-4 items-center justify-end'>
+                  <div className='flex gap-x-4 items-center'>
                     <div className='py-2 px-4 bg-slate-600 text-slate-100 rounded-md'>
                       <Link
                         href={`/dashboard/update-posts/${post.id}`}
