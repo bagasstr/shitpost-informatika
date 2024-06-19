@@ -67,17 +67,18 @@ const HomePosts = () => {
                 <div
                   key={post.id}
                   className='p-5 bg-slate-50 shadow-md rounded-3xl w-11/12'>
-                  <div className='h-auto object-cover w-auto overflow-clip rounded-lg'>
-                    {post.secureUrl ? (
+                  {post.secureUrl ? (
+                    <div className='h-[200px] w-[200px] object-scale-down rounded-lg overflow-hidden'>
                       <Image
                         src={post.secureUrl}
                         alt={post.title}
-                        width={400}
-                        height={400}
-                        className='rounded-xl border-2 border-slate-200'
+                        width={200}
+                        height={200}
+                        style={{ objectFit: "contain" }}
+                        className='rounded-xl border-2 object-scale-down border-slate-200 '
                       />
-                    ) : null}
-                  </div>
+                    </div>
+                  ) : null}
                   <div className='py-4'>
                     <Link href={`/post/${post.id}`}>
                       <p className='text-lg text-slate-900 font-bold line-clamp-1 text-wrap w-[400px] leading-tight'>
