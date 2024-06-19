@@ -46,6 +46,7 @@ const Register = () => {
               <div className=''>
                 <input
                   name='name'
+                  required
                   id='name'
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
@@ -64,6 +65,7 @@ const Register = () => {
                   value={data.email}
                   onChange={(e) => setData({ ...data, email: e.target.value })}
                   type='email'
+                  required
                   placeholder='Email'
                   className='outline-none border-none bg-slate-200 p-2 rounded-md'
                 />
@@ -75,6 +77,7 @@ const Register = () => {
                 <input
                   name='password'
                   id='password'
+                  required
                   value={data.password}
                   onChange={(e) =>
                     setData({ ...data, password: e.target.value })
@@ -93,7 +96,10 @@ const Register = () => {
                 Register
               </button>
               <p className='text-slate-800 text-sm'>
-                Already have an account? <Link href='/login'>Login</Link>
+                Already have an account?{" "}
+                <Link href='/login' className='text-slate-800 font-medium'>
+                  Login
+                </Link>
               </p>
             </div>
           </div>

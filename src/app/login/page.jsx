@@ -59,6 +59,7 @@ const Login = () => {
                     onChange={(e) =>
                       setData({ ...data, email: e.target.value })
                     }
+                    required
                     type='email'
                     placeholder='email'
                     className='outline-none border-none bg-slate-200 p-2 rounded-md'
@@ -73,6 +74,7 @@ const Login = () => {
                     onChange={(e) =>
                       setData({ ...data, password: e.target.value })
                     }
+                    required
                     type='password'
                     placeholder='password'
                     className='outline-none border-none bg-slate-200 p-2 rounded-md'
