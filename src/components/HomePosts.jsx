@@ -16,7 +16,13 @@ const HomePosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`/api/allPosts`);
+      const res = await fetch(`/api/allPosts`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      });
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -62,7 +68,7 @@ const HomePosts = () => {
       ) : (
         <>
           <div className='flex flex-col gap-y-4 items-center mt-12'>
-            {posts.map((post) => (
+            {posts?.map((post) => (
               <>
                 <div
                   key={post.id}
@@ -89,7 +95,7 @@ const HomePosts = () => {
                     </p>
                   </div>
                   {status === "authenticated" &&
-                  session.user.email === post.author.email ? (
+                  session?.user?.email === post?.author?.email ? (
                     <div className='flex gap-x-4 items-center justify-end'>
                       {/* <div className='py-2 px-4 bg-slate-600 text-slate-100 rounded-md'>
                         <Link

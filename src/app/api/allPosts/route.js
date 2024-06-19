@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export const fetchCache = "force-no-store";
 export async function GET() {
   try {
     const posts = await prisma.blog.findMany({
