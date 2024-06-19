@@ -18,7 +18,7 @@ export async function GET() {
       { posts },
       {
         headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Cache-Control": "no-store",
         },
       }
     );
