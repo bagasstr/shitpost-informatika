@@ -16,7 +16,7 @@ const HomePosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/allPosts`);
+      const res = await fetch(`/api/allPosts`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }

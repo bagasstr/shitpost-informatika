@@ -13,7 +13,7 @@ const Posts = () => {
   }, []);
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/authorPost`);
+      const res = await fetch(`/api/authorPost`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
