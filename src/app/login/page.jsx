@@ -10,6 +10,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingLogin, setLoadingLogin] = useState(false);
   useEffect(() => {
     if (session?.user && status === "authenticated") {
       redirect("/dashboard");
@@ -24,6 +25,7 @@ const Login = () => {
   if (isLoading) return <p>Loading...</p>;
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoadingLogin(true);
     try {
       const res = await signIn("credentials", {
         email: data.email,
@@ -39,7 +41,8 @@ const Login = () => {
         router.push("/dashboard");
       }
     } catch (error) {
-      throw error;
+      console.error("Error logging in:", error);
+      setLoadingLogin(false);
     }
   };
 
@@ -86,8 +89,9 @@ const Login = () => {
               </div>
               <button
                 type='submit'
+                disabled={isLoadingLogin}
                 className='bg-slate-800 rounded-md py-1 font-medium text-slate-100'>
-                Login
+                {isLoadingLogin ? "Loading..." : "Login"}
               </button>
               <p className='text-slate-700 text-sm'>
                 Don't have an account?{" "}
@@ -97,9 +101,9 @@ const Login = () => {
               </p>
             </div>
           </div>
-          <div className=''>
+          {/* <div className=''>
             <LoginBtn />
-          </div>
+          </div> */}
         </div>
       </form>
     </>

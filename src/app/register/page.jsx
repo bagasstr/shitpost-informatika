@@ -7,6 +7,7 @@ import React, { useState } from "react";
 const Register = () => {
   const [errors, setErrors] = useState({});
   const router = useRouter();
+  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -15,7 +16,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoadingRegister(true);
     try {
       const res = await fetch("/api/register", {
         method: "POST",
@@ -32,6 +33,8 @@ const Register = () => {
       }
     } catch (error) {
       throw error;
+    } finally {
+      setIsLoadingRegister(false);
     }
   };
   return (
@@ -92,8 +95,9 @@ const Register = () => {
               </div>
               <button
                 type='submit'
+                disabled={isLoadingRegister}
                 className='bg-slate-800 rounded-md py-1 font-medium text-slate-100'>
-                Register
+                {isLoadingRegister ? "Loading..." : "Register"}
               </button>
               <p className='text-slate-800 text-sm'>
                 Already have an account?{" "}
@@ -103,9 +107,9 @@ const Register = () => {
               </p>
             </div>
           </div>
-          <div className=''>
+          {/* <div className=''>
             <LoginBtn />
-          </div>
+          </div> */}
         </div>
       </form>
     </>
