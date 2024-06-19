@@ -16,9 +16,7 @@ const HomePosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`/api/allPosts`, {
-        cache: "no-store",
-      });
+      const res = await fetch(`/api/allPosts`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
