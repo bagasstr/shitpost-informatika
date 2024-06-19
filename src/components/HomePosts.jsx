@@ -12,7 +12,7 @@ const HomePosts = () => {
   const { data: session, status } = useSession();
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [posts]);
 
   const fetchPosts = async () => {
     try {

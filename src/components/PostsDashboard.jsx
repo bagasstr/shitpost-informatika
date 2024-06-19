@@ -10,7 +10,7 @@ const Posts = () => {
   const [isLoadingDelete, setLoadingDelete] = useState(false);
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [posts]);
   const fetchPosts = async () => {
     try {
       const res = await fetch(`/api/authorPost`);
