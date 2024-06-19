@@ -14,7 +14,14 @@ export async function GET() {
         },
       },
     });
-    return NextResponse.json({ posts });
+    return NextResponse.json(
+      { posts },
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     return new NextResponse("Failed to fetch all posts", { status: 500 });
