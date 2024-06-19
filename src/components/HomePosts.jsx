@@ -16,7 +16,7 @@ const HomePosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("/api/allPosts");
+      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/allPosts`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -68,14 +68,13 @@ const HomePosts = () => {
                   key={post.id}
                   className='p-5 bg-slate-50 shadow-md rounded-3xl w-11/12'>
                   {post.secureUrl ? (
-                    <div className='h-[200px] w-[200px] object-scale-down rounded-lg overflow-hidden'>
+                    <div className='h-[200px] w-[200px] bg-red-600 rounded-lg'>
                       <Image
                         src={post.secureUrl}
                         alt={post.title}
                         width={200}
                         height={200}
-                        style={{ objectFit: "contain" }}
-                        className='rounded-xl border-2 object-scale-down border-slate-200 '
+                        className='rounded-xl border-2 border-slate-200 '
                       />
                     </div>
                   ) : null}
