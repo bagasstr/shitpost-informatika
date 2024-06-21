@@ -85,12 +85,10 @@ const UpdatePosts = ({ params }) => {
         }),
       });
       if (res.ok) {
-        setUrl(null);
-        setPublicId(null);
         setData({
           ...data,
-          secureUrl: null,
-          publicId: null,
+          secureUrl: "",
+          publicId: "",
         });
       }
     } catch (error) {
