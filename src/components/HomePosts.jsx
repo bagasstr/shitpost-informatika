@@ -68,8 +68,8 @@ const HomePosts = () => {
                   key={post.id}
                   className='p-5 bg-slate-50 shadow-md rounded-3xl w-full flex justify-between'>
                   <div className='flex gap-x-4'>
-                    {post.secureUrl ? (
-                      <div className='relative sm:h-[95px] sm:w-[95px] md:h-[100px] md:w-[100px] lg:h-[100px] lg:w-[100px] rounded-xl'>
+                    {post.secureUrl && (
+                      <div className='relative sm:h-[95px] sm:w-[95px] md:h-[100px] md:w-[100px] lg:h-[100px] lg:w-[100px] rounded-xl sm:hidden'>
                         <Image
                           src={post.secureUrl}
                           alt={post.title}
@@ -79,10 +79,10 @@ const HomePosts = () => {
                           className='rounded-xl border-2 border-slate-200'
                         />
                       </div>
-                    ) : null}
+                    )}
                     <div className='py-4'>
                       <Link href={`/post/${post.id}`}>
-                        <p className='text-2xl text-slate-900 font-bold line-clamp-1 text-wrap w-auto sm:w-fit leading-tight'>
+                        <p className='text-2xl text-slate-900 font-bold line-clamp-2 text-wrap w-auto sm:w-fit leading-tight'>
                           {post.title}
                         </p>
                       </Link>
@@ -93,7 +93,7 @@ const HomePosts = () => {
                   </div>
                   {status === "authenticated" &&
                   session?.user?.email === post?.author?.email ? (
-                    <div className='flex gap-x-4 items-center justify-end '>
+                    <div className='flex gap-x-4 items-center justify-end pl-4'>
                       {/* <div className='py-2 px-4 bg-slate-600 text-slate-100 rounded-md'>
                         <Link
                           href={`/dashboard/update-posts/${post.id}`}

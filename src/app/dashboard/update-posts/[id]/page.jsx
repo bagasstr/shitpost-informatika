@@ -11,6 +11,10 @@ const UpdatePosts = ({ params }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [blog, setBlog] = useState(null);
 
+  const [length, setLength] = useState(0);
+  const [titleError, setTitleError] = useState("");
+  const [duplicateSlug, setDuplicateSlug] = useState([]);
+
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -18,12 +22,32 @@ const UpdatePosts = ({ params }) => {
     publicId: "",
   });
 
+  useEffect(() => {
+    if (length > 60) {
+      setTitleError("Judul tidak boleh lebih dari 60 karakter");
+    } else {
+      setTitleError(""); // Bersihkan pesan error jika valid
+    }
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch(`/api/allPosts`);
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setDuplicateSlug(data?.posts?.map((post) => post.title));
+      } catch (error) {
+        console.error("Error fetching", error);
+      }
+    };
+    fetchPosts();
+  }, [data.title]);
+
   // Fetch data blog saat komponen pertama kali dimuat
   useEffect(() => {
-    const fetchBlog = async () => {
+    const fetchSingleBlog = async () => {
       const res = await fetch(`/api/singlePost/${id}`);
       const post = await res.json();
-      console.log(post);
       if (res.ok) {
         setBlog(post);
         setData({
@@ -34,11 +58,19 @@ const UpdatePosts = ({ params }) => {
         });
       }
     };
-    fetchBlog();
+    fetchSingleBlog();
   }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (length > 60) {
+      alert("Judul tidak boleh lebih dari 60 karakter");
+      return;
+    }
+    if (duplicateSlug.includes(data.title)) {
+      alert("Judul sudah ada");
+      return;
+    }
     try {
       const res = await fetch(`/api/updatePosts/${id}`, {
         method: "PATCH",
@@ -92,7 +124,7 @@ const UpdatePosts = ({ params }) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -106,15 +138,26 @@ const UpdatePosts = ({ params }) => {
         <div className='flex justify-center flex-col items-center'>
           <h1 className='text-xl font-bold py-4'>Edit postingan</h1>
           <div className='flex flex-col gap-y-4 w-full'>
-            <input
-              type='text'
-              placeholder='Judul Postingan'
-              name='title'
-              value={data.title}
-              id='title'
-              onChange={(e) => setData({ ...data, title: e.target.value })}
-              className='outline-none border-none bg-slate-200 p-2 rounded-md'
-            />
+            <div className='flex flex-col w-full'>
+              <input
+                type='text'
+                placeholder='Judul Postingan'
+                name='title'
+                value={data.title}
+                id='title'
+                onChange={(e) => setData({ ...data, title: e.target.value })}
+                className='outline-none border-none cursor-text bg-slate-200 p-2 rounded-md'
+                onInput={(e) => setLength(e.target.value.length)}
+              />
+              <div className='flex items-center justify-between sm:mt-2'>
+                <p className={`sm:text-sm ${titleError ? "text-red-600" : ""}`}>
+                  {length}/60
+                </p>
+                {titleError && (
+                  <p className='text-red-600 text-sm'>{titleError}</p>
+                )}
+              </div>
+            </div>
             <textarea
               name='content'
               id='content'

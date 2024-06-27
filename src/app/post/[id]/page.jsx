@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const detailPost = async (id) => {
@@ -10,17 +11,38 @@ const detailPost = async (id) => {
 const page = async ({ params }) => {
   const id = params.id;
   const post = await detailPost(id);
-
   if (!post) {
     return <div>Post not found</div>;
   }
 
   return (
-    <div>
-      <h1 className='text-3xl font-bold'>{post?.title}</h1>
-      <p>Diposting oleh {post?.author?.name}</p>
-      <p className='text-2xl'>{post?.content}</p>
-    </div>
+    <>
+      <div className='lg:mt-8 sm:mt-8'>
+        <div className=''>
+          <h1 className='lg:text-2xl lg:font-bold sm:text-2xl sm:font-extrabold'>
+            {post.title}
+          </h1>
+          <div className=''>
+            <p className='lg:text-sm sm:text-sm'>
+              Penulis: <span className='font-medium'>{post.author.name}</span>
+            </p>
+          </div>
+          <div className='my-8'>
+            {post?.secureUrl && (
+              <Image
+                src={post?.secureUrl}
+                alt={post?.title}
+                width={800}
+                height={500}
+              />
+            )}
+          </div>
+          <div className='mt-8'>
+            <p className='text-justify'>{post.content}</p>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

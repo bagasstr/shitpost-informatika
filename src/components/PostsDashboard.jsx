@@ -63,24 +63,22 @@ const Posts = () => {
               <>
                 <div
                   key={post.id}
-                  className='p-5 bg-slate-50 shadow-md rounded-3xl w-full flex justify-between'>
+                  className='p-5 bg-slate-50 shadow-md rounded-3xl w-full flex justify-between sm:items-center'>
                   <div className='flex gap-x-4'>
-                    {post.secureUrl ? (
-                      <div className='relative sm:h-[95px] sm:w-[95px] md:h-[100px] md:w-[100px] lg:h-[100px] lg:w-[100px] rounded-xl'>
+                    {post.secureUrl && (
+                      <div className='relative sm:h-[95px] sm:w-[95px] md:h-[100px] md:w-[100px] sm:hidden lg:h-[85px] lg:w-[150px] rounded-xl'>
                         <Image
                           src={post.secureUrl}
                           alt={post.title}
-                          // width={400}
-                          // height={400}
                           fill
                           className='rounded-xl border-2 border-slate-200'
                         />
                       </div>
-                    ) : null}
+                    )}
 
                     <div className='py-4'>
                       <Link href={`/post/${post.id}`}>
-                        <p className='text-2xl text-slate-900 font-bold line-clamp-1 text-wrap w-auto sm:w-fit leading-tight'>
+                        <p className='text-2xl text-slate-900 font-bold line-clamp-2 text-wrap w-fit sm:w-fit leading-tight'>
                           {post.title}
                         </p>
                       </Link>
@@ -89,7 +87,7 @@ const Posts = () => {
                       </p>
                     </div>
                   </div>
-                  <div className='flex gap-x-4 items-center'>
+                  <div className='flex gap-x-4 items-center sm:flex-col sm:gap-y-4 sm:ml-4 lg:ml-8'>
                     <div className='py-2 px-4 bg-slate-600 text-slate-100 rounded-md'>
                       <Link
                         href={`/dashboard/update-posts/${post.id}`}
