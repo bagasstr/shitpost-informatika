@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const UpdatePosts = ({ params }) => {
   const id = params.id;
@@ -13,7 +13,6 @@ const UpdatePosts = ({ params }) => {
 
   const [length, setLength] = useState(0);
   const [titleError, setTitleError] = useState("");
-  const [duplicateSlug, setDuplicateSlug] = useState([]);
 
   const [data, setData] = useState({
     title: "",
@@ -26,21 +25,8 @@ const UpdatePosts = ({ params }) => {
     if (length > 60) {
       setTitleError("Judul tidak boleh lebih dari 60 karakter");
     } else {
-      setTitleError(""); // Bersihkan pesan error jika valid
+      setTitleError("");
     }
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch(`/api/allPosts`);
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await res.json();
-        setDuplicateSlug(data?.posts?.map((post) => post.title));
-      } catch (error) {
-        console.error("Error fetching", error);
-      }
-    };
-    fetchPosts();
   }, [data.title]);
 
   // Fetch data blog saat komponen pertama kali dimuat
@@ -67,10 +53,7 @@ const UpdatePosts = ({ params }) => {
       alert("Judul tidak boleh lebih dari 60 karakter");
       return;
     }
-    if (duplicateSlug.includes(data.title)) {
-      alert("Judul sudah ada");
-      return;
-    }
+
     try {
       const res = await fetch(`/api/updatePosts/${id}`, {
         method: "PATCH",
