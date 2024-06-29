@@ -2,7 +2,9 @@ import Image from "next/image";
 import React from "react";
 
 const detailPost = async (id) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/detailPost/${id}`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/detailPost/${id}`, {
+    cache: "no-store",
+  });
   const data = await res.json();
   const detailPost = data.data;
   return detailPost;
