@@ -28,10 +28,10 @@ const page = async ({ params }) => {
             </p>
           </div>
           <div className='my-8'>
-            {post?.secureUrl && (
+            {post.secureUrl && (
               <Image
-                src={post?.secureUrl}
-                alt={post?.title}
+                src={post.secureUrl}
+                alt={post.title}
                 width={800}
                 height={500}
               />
