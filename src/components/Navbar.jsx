@@ -31,7 +31,7 @@ const Navbar = () => {
           <Link href='/' className=''>
             <div className=''>
               <h1 className='text-slate-600 text-4xl sm:text-3xl sm:font-bold font-extrabold'>
-                Shitpost
+                Blog
               </h1>
               <span className='text-4xl text-slate-900 font-extrabold sm:text-2xl sm:font-bold '>
                 Informatika
